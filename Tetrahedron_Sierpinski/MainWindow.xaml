@@ -15,7 +15,7 @@
 
         <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" CornerRadius="10" Margin="20">
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Label Content="Max Level:" Foreground="White" VerticalAlignment="Center" Margin="5,0"/>
+                <Label Content="Max Level (0-7):" Foreground="White" VerticalAlignment="Center" Margin="5,0"/>
                 <TextBox Name="maxLevelTextBox" Width="40" Text="5" VerticalAlignment="Center" Margin="5"/>
                 <Button Content="Ustaw Max" Click="SetMax_Click" Width="80" Margin="5"/>
 

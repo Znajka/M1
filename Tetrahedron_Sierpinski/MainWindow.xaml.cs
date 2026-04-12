@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Tetrahedron_Sierpinski
 {
@@ -81,12 +82,18 @@ namespace Tetrahedron_Sierpinski
         // metoda odświeżająca model na podstawie wybranego poziomu
         void RefreshModel(int lvl)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             group.Children.Clear();
             group.Children.Add(new AmbientLight(Colors.Gray));
             group.Children.Add(new DirectionalLight(Colors.White, new Vector3D(-1, -1, -1)));
 
             double size = 5;
             DrawSierpinski(lvl, new Point3D(-size / 2, -size / 2, -size / 2), size, lvl);
+            sw.Stop();
+            long memoryUsed = Process.GetCurrentProcess().PrivateMemorySize64;
+            double memoryInMB = memoryUsed / (1024.0 * 1024.0);
+            Debug.WriteLine($"Poziom: {lvl} | Czas: {sw.ElapsedMilliseconds}ms | RAM: {memoryInMB:F2} MB");
         }
         // metoda rekurencyjna rysująca fraktal Sierpińskiego
         void DrawSierpinski(int lvl, Point3D pos, double size, int totalDepth)
@@ -121,10 +128,10 @@ namespace Tetrahedron_Sierpinski
             mesh.Positions.Add(p3);
             // indeksy trójkątów tworzących tetrahedron
             int[] indices = {
-                0, 1, 2,
+                0, 2, 1,
                 0, 1, 3,
-                1, 2, 3,
-                0, 2, 3 
+                0, 3, 2,
+                1, 2, 3 
             };
             // kolorowanie tetrahedronu na podstawie poziomu głębokości
             Color color = Color.FromRgb(
